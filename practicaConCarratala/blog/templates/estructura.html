@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="content-type" content="text/html" charset="utf-8">
+    <style type="text/css">
+        body {
+            margin: 0px;
+            padding: 0px;
+            background: rgb(220, 220, 220);
+        }
+
+        #contenedor {
+            width: 90%;
+            margin: auto;
+            background: rgb(250, 250, 250);
+            box-shad: 0px 10px 15px rgba(0, 0, 0, 0.1);
+            padding: 15px;
+        }
+
+        p {
+            text-align: justify;
+            font-family: sans-serif;
+            font-size: 12px;
+            color: rgb(100, 100, 100);
+        }
+
+        h1, h2, h3, h4 {
+            margin: 0px;
+            padding: 0px;
+            color: rgb(50, 50, 50);
+            font-family: serif;
+        }
+
+        article p {
+            padding-left: 20px;
+        }
+
+        article {
+            border-bottom: 1px dashed grey;
+            padding-top: 10px;
+            padding-bottom: 10px;
+        }
+
+        h1 {
+            font-size: 52px;
+            text-decoration: none;
+        }
+
+        header a {
+            text-decoration: none;
+        }
+
+        h2 {
+            font-size: 18px;
+            text-decoration: underline;
+        }
+
+        #articulos {
+            width: 65%;
+            float: left;
+        }
+
+        aside {
+            width: 30%;
+            float: right;
+            background: rgb(240, 240, 240);
+            padding: 10px;
+            height: 100%;
+        }
+    </style>
+    <title>Blog</title>
+</head>
+<body>
+<div id="contenedor">
+    <header>
+        <a href="http://localhost"><h1>Mi Blog</h1></a>
+
+        <h2>Blog de Jhonsson Córdova motorizado por Django</h2>
+    </header>
+    <section>
+        <div id="articulos">
+
+            {% block contenido %}{% endblock %}
+
+        </div>
+
+        <aside>
+            <h4>Histórico</h4>
+            {% for month in months %}
+            <p>
+                <a href="{url 'blog.views.month' month.0 month.1}" >{{ month.2 }}</a>
+            </p>
+            {% endfor %}
+            <h4>Sobre Mi</h4>
+            <p>
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit. Maecenas sed urna diam. Nam odio purus,
+                vestibulum ac laoreet eget, tincidunt a lorem. Vivamus ligula quam, porta a est sed, ultricies aliquet
+                erat. Nullam imperdiet varius orci, vel commodo arcu feugiat eget. Praesent commodo dolor vitae augue
+                lacinia vestibulum. Ut ultricies dui quis facilisis euismod. Donec at consequat libero. Sed adipiscing
+                lorem sed velit aliquam, ut hendrerit orci egestas.
+            </p>
+
+        </aside>
+    </section>
+    <br style="clear: both"/>
+    <footer>
+        (c) 2014 Jhonsson Córdova Dávila
+    </footer>
+</div>
+</body>
+</html>
