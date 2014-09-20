@@ -1,4 +1,5 @@
 from dajax.core import Dajax
+from django.contrib.auth import logout, authenticate, login
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render_to_response
 from django.template.context import RequestContext
@@ -51,6 +52,19 @@ def signup(request):
 def main(request):
     return render_to_response('main.html', {}, context_instance=RequestContext(request))
 
+def ingreso(request):
+    logout(request)
+    username = password = ''
+    if request.POST:
+        username = request.POST['username']
+        password = request.POST['password']
+
+        user = authenticate(username=username, password=password)
+        if user is not None:
+            if user.is_active:
+                login(request, user)
+                return HttpResponseRedirect('/home')
+    return render_to_response('login.html', context_instance=RequestContext(request))
 
 @login_required()
 def home(request):
@@ -69,5 +83,5 @@ def multiply(request):
     b = int(request.POST['b'])
     c = a * b
     dajax = Dajax()
-    dajax.assign('#result','value',str(c))
+    dajax.assign('#result', 'value', str(c))
     return dajax.calls
