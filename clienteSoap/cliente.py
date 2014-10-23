@@ -17,9 +17,9 @@
 
 from suds.client import Client
 
-url = 'http://localhost:8080/miservicio?wsdl'
+url = 'http://127.0.0.1/sw/usuario.wsdl'
 client = Client(url)
 
-msj = client.service.hellowithsql("Andrea Loaiza")
+msj = client.service.login('Jhonsson', '1234')
 print type(msj), "\n"
 print msj
