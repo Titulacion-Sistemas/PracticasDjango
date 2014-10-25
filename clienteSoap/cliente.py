@@ -17,9 +17,19 @@
 
 from suds.client import Client
 
-url = 'http://127.0.0.1/sw/usuario.wsdl'
-client = Client(url)
+url = 'http://127.0.0.1/sw/usuarios.wsdl'
 
-msj = client.service.login('Jhonsson', '1234')
+client = Client(url)
+msj = client.service.login('jhonsson', '1234')
+print type(msj), "\n"
+print msj
+
+client = Client('http://127.0.0.1/sw/busquedas.wsdl')
+msj = client.service.buscarMovil(1, 'A', 1, '4567890')
+print type(msj), "\n"
+print msj
+
+client = Client(url)
+msj = client.service.logout(1,'jhonsson', 'A')
 print type(msj), "\n"
 print msj

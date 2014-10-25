@@ -1,7 +1,8 @@
-from soaplib.service import soapmethod
+from soaplib.serializers.clazz import Array
+from soaplib.serializers.primitive import String
+
 from soaplib.serializers import primitive as soap_types
-from soaplib.wsgi_soap import SimpleWSGISoapApp
-import web
+
 
 from Sentencias.SentenciasPg import *
 
@@ -28,7 +29,7 @@ class Peticion_Respuesta:
 class SoapListar(SimpleWSGISoapApp):
     """Class for webservice """
 
-    @soapmethod(_returns=soap_types.Array(soap_types.String))
+    @soapmethod(_returns=Array(String))
     def listarCantones(self):
         """ Method for webservice"""
         return ListarCantones()
@@ -46,7 +47,7 @@ class SoapListar(SimpleWSGISoapApp):
 class SoapMiservicio(SimpleWSGISoapApp):
     """Class for webservice """
 
-    @soapmethod(soap_types.String, _returns=soap_types.String)
+    @soapmethod(String, _returns=String)
     def hellowithsql(self, message):
         """ Method for webservice"""
         return "Hola Mundo con %s" % str(message)
