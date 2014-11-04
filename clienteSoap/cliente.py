@@ -20,7 +20,12 @@ from suds.client import Client
 url = 'http://127.0.0.1/sw/usuarios.wsdl'
 
 client = Client(url)
-msj = client.service.login('jhonsson', '1234')
+msj = client.service.getContratos()
+print type(msj), "\n"
+print msj
+
+client = Client(url)
+msj = client.service.login('jhonsson', '1234', '0000008-14')
 print type(msj), "\n"
 print msj
 
