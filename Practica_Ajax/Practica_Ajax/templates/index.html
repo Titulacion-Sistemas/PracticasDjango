@@ -1,0 +1,49 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Prueba 1 - Ajax</title>
+	<script src="{% static 'js/jquery-1.11.2.min.js' %}"></script>
+	<script>
+		function realizaProceso(valorCaja1, valorCaja2){
+	        var parametros = {
+	        	csrfmiddlewaretoken: '{{ csrf_token }}',
+                "valorCaja1" : valorCaja1,
+                "valorCaja2" : valorCaja2
+	        };
+	        $.ajax({
+	                data:  parametros,
+	                url:   '/ejemploajaxproceso',
+	                type:  'post',
+	                datatype: 'json' ,
+				    async: true,
+	                beforeSend: function () {
+	                        $("#resultado").html("Procesando, espere por favor...");
+	                },
+	                success:  function (response) {
+	                        $("#resultado").html(response.resultado);
+	                }
+	        });
+		}
+</script>
+
+</head>
+<body>
+	{% csrf_token %}
+	Introduce valor 1
+	<input type="text" name="caja_texto" id="valor1" value="0"/> 
+
+
+	Introduce valor 2
+	<input type="text" name="caja_texto" id="valor2" value="0"/>
+
+	Realiza suma
+	<input type="button" href="javascript:;" onclick="realizaProceso($('#valor1').val(), $('#valor2').val());return false;" value="Calcula"/>
+
+	<br/>
+
+	Resultado: <span id="resultado">0</span>
+
+
+</body>
+</html>
