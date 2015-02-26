@@ -1,0 +1,117 @@
+
+import xlrd
+import os
+import glob
+
+def getDirectorios(raiz):
+    directorios = glob.glob(str(raiz)+"\\*")
+    for direccion in directorios:
+        #print direccion+"\n"
+        if not os.path.isdir(direccion):
+            directorios.remove(direccion)
+
+    return directorios
+
+def Script():
+
+    print "Este es el Script que buscara y hallara fotos faltantes desde un archivo de excel especificado hacia una " \
+          "ruta tambien especificada\n\n"
+
+    xls = raw_input("Especifique documento de excel : ")
+    directorio = raw_input("Directorio de Fotos : ")
+    subdirectorios = getDirectorios(str(directorio))
+
+    doc = xlrd.open_workbook(str(xls))
+    print "\n\n"+"Documento : "+ str(xls) +"\n"
+    sheet = doc.sheet_by_index(0)
+    print "Hoja para analizar : "+str(sheet.name) +"\n"
+
+    print "Analizando, Espere...\n "
+
+    #sleep(15)
+
+    print "Registros en Documento y no en Fotos:"
+
+    sd = getDirectorios(str(directorio))
+
+    vacias=0
+    fila=7
+    loop=1
+    try:
+        while vacias<50:
+            cta_xls = sheet.cell_value(fila, 10)
+            medidor_xls = sheet.cell_value(fila, 16)
+
+            fila=fila+1
+
+            for cta_directorio in subdirectorios:
+                cta_dir = cta_directorio.split('\\')[len(cta_directorio.split('\\'))-1]
+
+                if str(cta_xls) or str(medidor_xls):
+                    if str(cta_xls):
+                        if cta_dir.find(str(int(cta_xls)))>=0 :
+                            subdirectorios.remove(cta_directorio)
+                            vacias= 0
+                            loop = 1
+                            break
+                    if str(medidor_xls):
+                        if cta_dir.find(("SN "+str(int(medidor_xls))))>=0 \
+                            or cta_dir.find(("SN"+str(int(medidor_xls))))>=0 \
+                            or cta_dir.find(("sn "+str(int(medidor_xls))))>=0 \
+                            or cta_dir.find(("sn"+str(int(medidor_xls))))>=0:
+                            subdirectorios.remove(cta_directorio)
+                            vacias= 0
+                            loop = 1
+                            break
+                else:
+                    vacias=vacias+1
+                    loop = 1
+                    break
+                loop = loop+1
+
+            if loop == len(subdirectorios) or loop > len(subdirectorios):
+                print int(cta_xls)
+
+    except:
+        print "Error... 001"
+
+
+    print "\n\nRegistros en Fotos y no en Documento:"
+
+
+    try:
+        for cta_directorio in sd:
+            cta_dir = cta_directorio.split('\\')[len(cta_directorio.split('\\'))-1]
+            fila = 7
+            vacias=0
+            while vacias<50:
+                cta_xls = sheet.cell_value(fila, 10)
+                medidor_xls = sheet.cell_value(fila, 16)
+                fila=fila+1
+
+                if str(cta_xls) or str(medidor_xls):
+                    if str(cta_xls):
+                        if cta_dir.find(str(int(cta_xls)))>=0 :
+                            vacias = 51
+                            #break
+                    if str(medidor_xls):
+                        if cta_dir.find(("SN "+str(int(medidor_xls))))>=0 \
+                                or cta_dir.find(("SN"+str(int(medidor_xls))))>=0 \
+                                or cta_dir.find(("sn "+str(int(medidor_xls))))>=0 \
+                                or cta_dir.find(("sn"+str(int(medidor_xls))))>=0:
+                            vacias = 51
+                            #break
+                else:
+                    vacias = vacias+1
+            if  vacias==50:
+                print cta_dir
+
+    except:
+        print "Error... 002"
+
+
+
+
+if "__main__"==__name__:
+    #print "Iniciando Script ...
+    Script()
